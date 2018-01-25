@@ -1,0 +1,12 @@
+{
+  "editor.rulers": [120],
+  "editor.tabCompletion": true,
+  "eslint.autoFixOnSave": true,
+  "files.exclude": {
+    "**/dist/": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true
+  }
+}
