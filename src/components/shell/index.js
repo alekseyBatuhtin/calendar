@@ -1,5 +1,7 @@
 import React from 'react';
 
-const Shell = () => <div>{'Welcome'}</div>;
+import Calendar from '../calendar';
+
+const Shell = () => <Calendar />;
 
 export default Shell;
