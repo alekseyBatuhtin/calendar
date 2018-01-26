@@ -7,8 +7,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
-    minHeight: '80px',
-    boxSizing: 'border-box',
+    height: '80px',
     backgroundColor: '#F4F4F4',
     padding: '10px 30px',
     boxShadow: '0px 3px 10px -3px rgba(0,0,0,0.42)'
