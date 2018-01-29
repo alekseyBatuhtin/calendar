@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { compose, defaultProps } from 'recompose';
+
 import Head from '../head';
 import Toolbar from '../toolbar';
-// import Month from '../month';
+import Month from '../month';
 import { withStyles } from 'material-ui';
+
+import events from '../../events';
 
 const styles = {
   calendar: {
@@ -12,25 +16,22 @@ const styles = {
     flexDirection: 'column',
     height: '100%',
     alignItems: 'stretch'
-  },
-  month: {
-    padding: '15px 30px'
   }
 };
 
-const enhance = withStyles(styles);
+const enhance = compose(defaultProps({ now: new Date(), events }), withStyles(styles));
 
-const Calendar = ({ classes }) => (
+const Calendar = ({ classes, now, events }) => (
   <div className={classes.calendar}>
     <Head />
-    <div className={classes.month}>
-      <Toolbar />
-      {/* <Month /> */}
-    </div>
+    <Toolbar />
+    <Month date={now} currentDate={now} events={events} />
   </div>
 );
 
 Calendar.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  events: PropTypes.array,
+  now: PropTypes.object.isRequired
 };
 export default enhance(Calendar);
