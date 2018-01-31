@@ -1,6 +1,10 @@
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
+import { compose, withStateHandlers } from 'recompose';
 import { withStyles, Button, TextField } from 'material-ui';
+
+import SimpleAddEventPopover from '../popovers/simple-add-event-popover';
 
 const styles = {
   head: {
@@ -18,21 +22,42 @@ const styles = {
   }
 };
 
-const enhance = withStyles(styles);
-
-const Head = ({ classes }) => (
-  <div className={classes.head}>
-    <div>
-      <Button raised={true} className={classes.button}>
-        {'Добавить'}
-      </Button>
-      <Button raised={true} className={classes.button}>
-        {'Обновить'}
-      </Button>
-    </div>
-    <TextField />
-  </div>
+const enhance = compose(
+  withStateHandlers(
+    { open: false, anchorEl: null },
+    {
+      handlePopoverOpen: () => el => ({ open: true, anchorEl: findDOMNode(el) }),
+      handlePopoverClose: () => () => ({ open: false, anchorEl: null })
+    }
+  ),
+  withStyles(styles)
 );
+
+function Head({ classes, open, anchorEl, handlePopoverOpen, handlePopoverClose }) {
+  let addButton = null; // https://reactjs.org/docs/refs-and-the-dom.html#refs-and-functional-components
+
+  return (
+    <div className={classes.head}>
+      <div>
+        <Button
+          raised={true}
+          className={classes.button}
+          ref={button => {
+            addButton = button;
+          }}
+          onClick={() => handlePopoverOpen(addButton)}
+        >
+          {'Добавить'}
+        </Button>
+        <Button raised={true} className={classes.button}>
+          {'Обновить'}
+        </Button>
+      </div>
+      <SimpleAddEventPopover open={open} handleClose={handlePopoverClose} anchorEl={anchorEl} />
+      <TextField />
+    </div>
+  );
+}
 
 Head.propTypes = {
   classes: PropTypes.object.isRequired
