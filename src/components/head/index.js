@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { compose, withStateHandlers } from 'recompose';
 import { withStyles, Button, TextField } from 'material-ui';
 
-import SimpleAddEventPopover from '../popovers/simple-add-event-popover';
+import SimpleAddEventPopover from '../popovers/simple-add-event';
 
 const styles = {
   head: {
@@ -60,7 +60,11 @@ function Head({ classes, open, anchorEl, handlePopoverOpen, handlePopoverClose }
 }
 
 Head.propTypes = {
-  classes: PropTypes.object.isRequired
+  anchorEl: PropTypes.object,
+  classes: PropTypes.object.isRequired,
+  handlePopoverClose: PropTypes.func,
+  handlePopoverOpen: PropTypes.func,
+  open: PropTypes.bool
 };
 
 export default enhance(Head);

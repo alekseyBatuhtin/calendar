@@ -24,7 +24,7 @@ function createEvent(value) {
     [rawDate, title] = value.split(', ');
     date = moment(rawDate, 'DD MM', 'ru').format();
   } else {
-    date = moment(value.date, 'DD MMM YYYY', 'ru').format();
+    date = moment(value.date, 'DD MMMM YYYY', 'ru').format();
     title = value.title;
   }
 

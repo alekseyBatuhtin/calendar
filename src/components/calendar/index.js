@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
-import { compose, defaultProps, withProps, lifecycle } from 'recompose';
+import { compose, defaultProps, withState, lifecycle } from 'recompose';
 import { withStyles } from 'material-ui';
 
 import Head from '../head';
@@ -19,11 +19,13 @@ const styles = {
     alignItems: 'stretch'
   }
 };
+
 const mapStateToProps = ({ events }) => ({ events });
 const mapDispatchToProps = { getEvents };
 
 const enhance = compose(
   defaultProps({ now: new Date() }),
+  withState('date', 'handleDate', new Date()),
   connect(mapStateToProps, mapDispatchToProps),
   lifecycle({
     componentDidMount() {
@@ -33,22 +35,20 @@ const enhance = compose(
   withStyles(styles)
 );
 
-const Calendar = ({ classes, now, events }) => (
+const Calendar = ({ classes, date, events, handleDate, now }) => (
   <div className={classes.calendar}>
     <Head />
-    <Toolbar />
-    <Month date={now} currentDate={now} events={events} />
+    <Toolbar handleDate={handleDate} date={date} now={now} />
+    <Month date={date} now={now} events={events} />
   </div>
 );
 
 Calendar.propTypes = {
   classes: PropTypes.object.isRequired,
-  events: PropTypes.object,
+  date: PropTypes.object.isRequired,
+  events: PropTypes.object.isRequired,
+  handleDate: PropTypes.func.isRequired,
   now: PropTypes.object.isRequired
-};
-
-Calendar.defaultProps = {
-  events: {}
 };
 
 export default enhance(Calendar);
