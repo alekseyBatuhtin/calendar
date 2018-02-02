@@ -37,7 +37,7 @@ const enhance = compose(
 
 const Calendar = ({ classes, date, events, handleDate, now }) => (
   <div className={classes.calendar}>
-    <Head />
+    <Head events={events} />
     <Toolbar handleDate={handleDate} date={date} now={now} />
     <Month date={date} now={now} events={events} />
   </div>

@@ -2,7 +2,9 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import { compose, withStateHandlers } from 'recompose';
-import { withStyles, Button, TextField } from 'material-ui';
+import { withStyles, Button } from 'material-ui';
+
+import SearchBar from './search';
 
 import SimpleAddEventPopover from '../popovers/simple-add-event';
 
@@ -33,7 +35,7 @@ const enhance = compose(
   withStyles(styles)
 );
 
-function Head({ classes, open, anchorEl, handlePopoverOpen, handlePopoverClose }) {
+function Head({ classes, open, anchorEl, handlePopoverOpen, handlePopoverClose, events }) {
   let addButton = null; // https://reactjs.org/docs/refs-and-the-dom.html#refs-and-functional-components
 
   return (
@@ -52,9 +54,9 @@ function Head({ classes, open, anchorEl, handlePopoverOpen, handlePopoverClose }
         <Button raised={true} className={classes.button}>
           {'Обновить'}
         </Button>
+        <SimpleAddEventPopover open={open} handleClose={handlePopoverClose} anchorEl={anchorEl} />
       </div>
-      <SimpleAddEventPopover open={open} handleClose={handlePopoverClose} anchorEl={anchorEl} />
-      <TextField />
+      <SearchBar events={events} />
     </div>
   );
 }
@@ -62,6 +64,7 @@ function Head({ classes, open, anchorEl, handlePopoverOpen, handlePopoverClose }
 Head.propTypes = {
   anchorEl: PropTypes.object,
   classes: PropTypes.object.isRequired,
+  events: PropTypes.object,
   handlePopoverClose: PropTypes.func,
   handlePopoverOpen: PropTypes.func,
   open: PropTypes.bool
