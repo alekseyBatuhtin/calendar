@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import moment from 'moment';
 
-import { compose, withStateHandlers, withHandlers, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
+import { compose, lifecycle, withStateHandlers, withHandlers } from 'recompose';
 
 import { withStyles } from 'material-ui';
 import Input from '../ui/input';
@@ -40,22 +40,29 @@ const enhance = compose(
   }),
   lifecycle({
     componentDidMount() {
-      const { initForm, selectedDay } = this.props;
-      if (selectedDay) {
+      const { initForm, eventData } = this.props;
+      if (eventData) {
+        const { title, date, members, description } = eventData;
         const initDate = {
-          date: moment(selectedDay)
+          title,
+          date: moment(date)
             .locale('ru')
-            .format('D MMMM YYYY')
+            .format('D MMMM YYYY'),
+          members,
+          description
         };
         initForm(initDate);
       }
+    },
+    componentWillUnmount() {
+      this.props.handleCloseEditForm();
     }
   }),
   withStyles(styles)
 );
 
-const AddForm = ({ classes, handleSubmit, handleChange, title, date, members, description }) => (
-  <form onSubmit={handleSubmit} className={classes.form}>
+const EditForm = ({ classes, handleSubmit, handleCloseEditForm, handleChange, title, date, members, description }) => (
+  <form className={classes.form} onSubmit={handleSubmit}>
     <Input placeholderValue="Событие" name="title" handleChange={handleChange} value={title} />
     <Input
       placeholderValue="День месяц год"
@@ -79,19 +86,21 @@ const AddForm = ({ classes, handleSubmit, handleChange, title, date, members, de
       value={description}
     />
     <div>
-      <Button type="submit">{'Готово'}</Button>
+      <Button type="submit">{'Сохранить'}</Button>
+      <Button handleClick={handleCloseEditForm}>{'Назад'}</Button>
     </div>
   </form>
 );
 
-AddForm.propTypes = {
+EditForm.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string),
   date: PropTypes.string,
   description: PropTypes.string,
   handleChange: PropTypes.func,
+  handleCloseEditForm: PropTypes.func,
   handleSubmit: PropTypes.func,
   members: PropTypes.string,
   title: PropTypes.string
 };
 
-export default enhance(AddForm);
+export default enhance(EditForm);

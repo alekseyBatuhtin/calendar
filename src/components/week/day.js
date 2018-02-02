@@ -56,7 +56,6 @@ const enhance = compose(
 
 const Day = ({ classes, dayClassname, day, isFirstWeek, eventDay, handlePopoverOpen }) => {
   let dayEl = null;
-
   return (
     <div
       className={dayClassname}
@@ -64,7 +63,7 @@ const Day = ({ classes, dayClassname, day, isFirstWeek, eventDay, handlePopoverO
         dayEl = day;
       }}
       onClick={() => {
-        handlePopoverOpen(dayEl, day);
+        handlePopoverOpen(dayEl, day, eventDay);
       }}
     >
       <div>
@@ -75,7 +74,7 @@ const Day = ({ classes, dayClassname, day, isFirstWeek, eventDay, handlePopoverO
       {eventDay && (
         <div className={classes.event}>
           <div className={classes.eventTitle}>{eventDay.title}</div>
-          {eventDay.members.length > 0 && <div className={classes.members}>{eventDay.members.join(', ')}</div>}
+          {eventDay.members.length > 0 && <div className={classes.members}>{eventDay.members}</div>}
         </div>
       )}
     </div>

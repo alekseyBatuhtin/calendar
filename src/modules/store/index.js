@@ -15,6 +15,12 @@ export const writeEvent = ({ value }) => {
   return { event };
 };
 
+export const deleteEvent = date => {
+  const events = getEvents();
+  delete events[date];
+  store.set('events', events);
+};
+
 function createEvent(value) {
   let date;
   let title;
@@ -32,7 +38,7 @@ function createEvent(value) {
     id: shortid.generate(),
     title: title || value.title,
     date,
-    members: value.members || [],
-    description: value.description || null
+    members: value.members || '',
+    description: value.description || ''
   };
 }

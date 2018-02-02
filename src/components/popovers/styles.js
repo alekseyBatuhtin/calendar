@@ -1,5 +1,5 @@
 export default {
-  addForm: {
+  form: {
     display: 'flex',
     flexDirection: 'column'
   }

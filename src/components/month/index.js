@@ -7,7 +7,7 @@ import { withStyles } from 'material-ui';
 import { splitEvery, compose as composeR } from 'ramda';
 
 import Week from '../week';
-import AddEventPopover from '../popovers/add-event';
+import PopoverEvent from '../popovers/main';
 
 import visibleDays from '../../utils/visibleDays';
 import eventsByWeeks from '../../utils/eventsForWeek';
@@ -30,9 +30,14 @@ const enhance = compose(
     return { weeks, date, now, eventsByWeek: eventsByWeeks(events, weeks) };
   }),
   withStateHandlers(
-    { open: false, anchorEl: null, selectedDay: null },
+    { open: false, anchorEl: null, selectedDay: null, eventData: null },
     {
-      handlePopoverOpen: () => (el, day) => ({ open: true, anchorEl: findDOMNode(el), selectedDay: day }),
+      handlePopoverOpen: () => (el, day, eventData) => ({
+        open: true,
+        anchorEl: findDOMNode(el),
+        selectedDay: day,
+        eventData
+      }),
       handlePopoverClose: () => () => ({ open: false, anchorEl: null, selectedDay: null })
     }
   ),
@@ -49,7 +54,8 @@ const Month = ({
   anchorEl,
   handlePopoverOpen,
   handlePopoverClose,
-  selectedDay
+  selectedDay,
+  eventData
 }) => (
   <div className={classes.monthView}>
     {weeks &&
@@ -65,7 +71,13 @@ const Month = ({
           selectedDay={selectedDay}
         />
       ))}
-    <AddEventPopover open={open} anchorEl={anchorEl} handleClose={handlePopoverClose} selectedDay={selectedDay} />
+    <PopoverEvent
+      open={open}
+      anchorEl={anchorEl}
+      handlePopoverClose={handlePopoverClose}
+      eventData={eventData}
+      selectedDay={selectedDay}
+    />
   </div>
 );
 
@@ -73,6 +85,7 @@ Month.propTypes = {
   anchorEl: PropTypes.object,
   classes: PropTypes.object,
   date: PropTypes.object,
+  eventData: PropTypes.object,
   eventsByWeek: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)),
   handlePopoverClose: PropTypes.func,
   handlePopoverOpen: PropTypes.func,

@@ -1,7 +1,7 @@
 import { put, call, takeEvery } from 'redux-saga/effects';
 
-import { writeEvent, getEvents } from '../../store';
-import { ADD_EVENT, GET_EVENTS } from '../actions';
+import { writeEvent, getEvents, deleteEvent } from '../../store';
+import { ADD_EVENT, GET_EVENTS, DELETE_EVENT } from '../actions';
 
 function* handleAddEvent(action) {
   const { type, payload } = action;
@@ -26,7 +26,18 @@ function* handleGetEvents(action) {
   });
 }
 
+function* handleDeleteEvent(action) {
+  const { type, payload } = action;
+  yield put({ type: `${type}_START` });
+  yield call(deleteEvent, payload.date);
+  yield put({
+    type: `${type}_SUCCESS`,
+    payload: payload.date
+  });
+}
+
 export default function* watchEvent() {
   yield takeEvery(ADD_EVENT, handleAddEvent);
   yield takeEvery(GET_EVENTS, handleGetEvents);
+  yield takeEvery(DELETE_EVENT, handleDeleteEvent);
 }

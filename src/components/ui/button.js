@@ -12,8 +12,8 @@ const styles = {
 
 const enhance = withStyles(styles);
 
-const Button = ({ type, classes, children }) => (
-  <button className={classes.button} type={type}>
+const Button = ({ type, classes, children, handleClick }) => (
+  <button onClick={handleClick} className={classes.button} type={type}>
     {children}
   </button>
 );
@@ -21,6 +21,7 @@ const Button = ({ type, classes, children }) => (
 Button.propTypes = {
   children: PropTypes.node,
   classes: PropTypes.objectOf(PropTypes.string),
+  handleClick: PropTypes.func,
   type: PropTypes.string
 };
 
