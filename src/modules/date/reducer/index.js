@@ -2,7 +2,7 @@ import moment from 'moment';
 import { NEXT_MONTH, PREV_MONTH, SET_DATE } from '../actions';
 import createReducer from '../../../utils/createReducer';
 
-export default createReducer(new Date().toString(), {
+export default createReducer(moment(new Date()).format(), {
   [NEXT_MONTH](state) {
     return moment(state)
       .startOf('month')
