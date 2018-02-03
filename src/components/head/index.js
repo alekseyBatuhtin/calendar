@@ -20,7 +20,8 @@ const styles = {
   },
   button: {
     backgroundColor: '#0071C3',
-    color: '#FFF'
+    color: '#FFF',
+    marginRight: '12px'
   }
 };
 

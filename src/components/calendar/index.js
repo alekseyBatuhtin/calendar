@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
-import { compose, defaultProps, withState, lifecycle } from 'recompose';
+import { compose, defaultProps, lifecycle, onlyUpdateForKeys } from 'recompose';
 import { withStyles } from 'material-ui';
 
 import Head from '../head';
@@ -31,6 +31,7 @@ const enhance = compose(
       this.props.getEvents();
     }
   }),
+  onlyUpdateForKeys(['date', 'events']),
   withStyles(styles)
 );
 

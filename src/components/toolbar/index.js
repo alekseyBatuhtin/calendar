@@ -70,4 +70,5 @@ Toolbar.propTypes = {
   now: PropTypes.object,
   prevMonth: PropTypes.func
 };
+
 export default enhance(Toolbar);

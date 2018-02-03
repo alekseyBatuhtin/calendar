@@ -5,7 +5,7 @@ import moment from 'moment';
 import cn from 'classnames';
 
 import { connect } from 'react-redux';
-import { compose, withProps, withHandlers, lifecycle } from 'recompose';
+import { compose, withProps, withHandlers } from 'recompose';
 import { withStyles } from 'material-ui';
 
 import { selectDay } from '../../modules/selected-day/actions';
@@ -104,4 +104,5 @@ Day.propTypes = {
   handleClick: PropTypes.func,
   isFirstWeek: PropTypes.bool
 };
+
 export default enhance(Day);

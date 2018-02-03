@@ -18,4 +18,11 @@ const Input = ({ classes, autoFocus, value, ref, ...other }) => (
   />
 );
 
+Input.propTypes = {
+  autoFocus: PropTypes.bool,
+  classes: PropTypes.objectOf(PropTypes.string),
+  ref: PropTypes.object,
+  value: PropTypes.string
+};
+
 export default Input;

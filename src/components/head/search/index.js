@@ -35,7 +35,10 @@ const styles = {
   },
   suggestion: {
     display: 'block',
-    borderBottom: '1px solid black'
+    borderBottom: '1px solid black',
+    '&:last-child': {
+      borderBottom: 0
+    }
   },
   suggestionsList: {
     margin: 0,
@@ -58,6 +61,7 @@ const styles = {
     marginRight: '8px'
   }
 };
+
 const mapStateToProps = ({ selectedDay: { selectedDateDay } }) => ({ selectedDateDay });
 const mapDispatchToProps = { selectDay, setDate };
 
@@ -99,50 +103,46 @@ const enhance = compose(
   withStyles(styles)
 );
 
-const SearchBar = props => {
-  const {
-    classes,
-    handleChange,
-    value,
-    suggestions,
-    handleSuggestionsFetchRequested,
-    handleSuggestionsClearRequested,
-    handleSuggestionHighlighted,
-    handleSuggestionSelected
-  } = props;
-
-  return (
-    <div className={classes.wrap}>
-      <Search className={classes.icon} />
-      <Autosuggest
-        theme={{
-          container: classes.container,
-          suggestionsContainerOpen: classes.suggestionsContainerOpen,
-          suggestionsList: classes.suggestionsList,
-          suggestion: classes.suggestion
-        }}
-        renderInputComponent={Input}
-        suggestions={suggestions}
-        onSuggestionsFetchRequested={handleSuggestionsFetchRequested}
-        onSuggestionsClearRequested={handleSuggestionsClearRequested}
-        onSuggestionSelected={handleSuggestionSelected}
-        onSuggestionHighlighted={handleSuggestionHighlighted}
-        renderSuggestion={Suggestion}
-        renderSuggestionsContainer={SuggestionContainer}
-        getSuggestionValue={getSuggestionValue}
-        inputProps={{
-          autoFocus: false,
-          classes,
-          placeholder: 'Событие дата или участник',
-          type: 'search',
-          value,
-          onChange: handleChange,
-          disableUnderline: true
-        }}
-      />
-    </div>
-  );
-};
+const SearchBar = ({
+  classes,
+  handleChange,
+  value,
+  suggestions,
+  handleSuggestionsFetchRequested,
+  handleSuggestionsClearRequested,
+  handleSuggestionHighlighted,
+  handleSuggestionSelected
+}) => (
+  <div className={classes.wrap}>
+    <Search className={classes.icon} />
+    <Autosuggest
+      theme={{
+        container: classes.container,
+        suggestionsContainerOpen: classes.suggestionsContainerOpen,
+        suggestionsList: classes.suggestionsList,
+        suggestion: classes.suggestion
+      }}
+      renderInputComponent={Input}
+      suggestions={suggestions}
+      onSuggestionsFetchRequested={handleSuggestionsFetchRequested}
+      onSuggestionsClearRequested={handleSuggestionsClearRequested}
+      onSuggestionSelected={handleSuggestionSelected}
+      onSuggestionHighlighted={handleSuggestionHighlighted}
+      renderSuggestion={Suggestion}
+      renderSuggestionsContainer={SuggestionContainer}
+      getSuggestionValue={getSuggestionValue}
+      inputProps={{
+        autoFocus: false,
+        classes,
+        placeholder: 'Событие дата или участник',
+        type: 'search',
+        value,
+        onChange: handleChange,
+        disableUnderline: true
+      }}
+    />
+  </div>
+);
 
 SearchBar.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string),
@@ -154,6 +154,7 @@ SearchBar.propTypes = {
   suggestions: PropTypes.arrayOf(PropTypes.object),
   value: PropTypes.string
 };
+
 export default enhance(SearchBar);
 
 function getSuggestions(value, events) {
