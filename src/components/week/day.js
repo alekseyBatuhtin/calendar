@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { compose, withProps } from 'recompose';
-import { withStyles } from 'material-ui';
-
 import moment from 'moment';
 import cn from 'classnames';
+
+import { connect } from 'react-redux';
+import { compose, withProps, withHandlers, lifecycle } from 'recompose';
+import { withStyles } from 'material-ui';
+
+import { selectDay } from '../../modules/selected-day/actions';
 
 const styles = {
   day: {
@@ -38,7 +41,18 @@ const styles = {
   }
 };
 
+const mapStateToProps = ({ selectedDay: { selectedDateDay } }) => ({ selectedDateDay });
+const mapDisaptchToProps = { selectDay };
+
 const enhance = compose(
+  connect(mapStateToProps, mapDisaptchToProps),
+  withHandlers({
+    handleClick: ({ selectDay, handlePopoverOpen }) => (event, { anchorEl, selectedDateDay, eventData }) => {
+      selectDay(anchorEl, selectedDateDay, eventData);
+      handlePopoverOpen();
+      event.preventDefault();
+    }
+  }),
   withStyles(styles),
   withProps(({ classes, now, day, selectedDay, eventDay }) => {
     const isToday = moment(now).isSame(day, 'day');
@@ -54,16 +68,17 @@ const enhance = compose(
   })
 );
 
-const Day = ({ classes, dayClassname, day, isFirstWeek, eventDay, handlePopoverOpen }) => {
+const Day = ({ classes, dayClassname, day, isFirstWeek, eventDay, handleClick }) => {
   let dayEl = null;
+
   return (
     <div
       className={dayClassname}
       ref={day => {
         dayEl = day;
       }}
-      onClick={() => {
-        handlePopoverOpen(dayEl, day, eventDay);
+      onClick={event => {
+        handleClick(event, { anchorEl: dayEl, selectedDateDay: day, eventData: eventDay });
       }}
     >
       <div>
@@ -86,7 +101,7 @@ Day.propTypes = {
   day: PropTypes.string.isRequired,
   dayClassname: PropTypes.string,
   eventDay: PropTypes.object,
-  handlePopoverOpen: PropTypes.func,
+  handleClick: PropTypes.func,
   isFirstWeek: PropTypes.bool
 };
 export default enhance(Day);

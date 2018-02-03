@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { pathOr } from 'ramda';
 
 import { compose, withState, mapProps, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
@@ -11,6 +12,9 @@ import Search from 'material-ui-icons/Search';
 import Input from './input';
 
 import { Suggestion, SuggestionContainer } from './suggestion';
+
+import { selectDay } from '../../../modules/selected-day/actions';
+import { setDate } from '../../../modules/date/actions';
 
 const styles = {
   wrap: {
@@ -54,17 +58,17 @@ const styles = {
     marginRight: '8px'
   }
 };
-
-const mapDispatchToProps = {};
+const mapStateToProps = ({ selectedDay: { selectedDateDay } }) => ({ selectedDateDay });
+const mapDispatchToProps = { selectDay, setDate };
 
 const enhance = compose(
-  connect(null, mapDispatchToProps),
   mapProps(({ events }) => ({
     eventsArray: Object.keys(events).reduce((acc, event) => {
       acc.push(events[event]);
       return acc;
     }, [])
   })),
+  connect(mapStateToProps, mapDispatchToProps),
   withState('value', 'setValue', ''),
   withState('suggestions', 'setSuggestions', []),
   withHandlers({
@@ -79,11 +83,18 @@ const enhance = compose(
   withHandlers({
     handleChange: ({ setValue }) => (event, { newValue }) => {
       setValue(newValue);
-    } /* ,
-    handleSuggestionSelected: ({ getBookList }) => (event, { suggestionValue }) => {
-      // getBookList(suggestionValue);
+    },
+    handleSuggestionSelected: ({ selectDay, setDate }) => (event, { suggestion }) => {
+      const suggestionDate = pathOr(null, ['date'], suggestion);
+      setDate(suggestionDate);
+      selectDay(null, suggestionDate);
+    },
+    handleSuggestionHighlighted: ({ selectDay }) => ({ suggestion }) => {
+      const suggestionDate = pathOr(null, ['date'], suggestion);
+      if (suggestionDate) {
+        selectDay(null, suggestionDate);
+      }
     }
-    }*/
   }),
   withStyles(styles)
 );
@@ -96,6 +107,7 @@ const SearchBar = props => {
     suggestions,
     handleSuggestionsFetchRequested,
     handleSuggestionsClearRequested,
+    handleSuggestionHighlighted,
     handleSuggestionSelected
   } = props;
 
@@ -113,7 +125,8 @@ const SearchBar = props => {
         suggestions={suggestions}
         onSuggestionsFetchRequested={handleSuggestionsFetchRequested}
         onSuggestionsClearRequested={handleSuggestionsClearRequested}
-        onSuggestionSelected={() => {}}
+        onSuggestionSelected={handleSuggestionSelected}
+        onSuggestionHighlighted={handleSuggestionHighlighted}
         renderSuggestion={Suggestion}
         renderSuggestionsContainer={SuggestionContainer}
         getSuggestionValue={getSuggestionValue}
@@ -134,6 +147,7 @@ const SearchBar = props => {
 SearchBar.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string),
   handleChange: PropTypes.func,
+  handleSuggestionHighlighted: PropTypes.func,
   handleSuggestionsClearRequested: PropTypes.func,
   handleSuggestionSelected: PropTypes.func,
   handleSuggestionsFetchRequested: PropTypes.func,

@@ -2,11 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import moment from 'moment';
-import { compose, withHandlers } from 'recompose';
+import { connect } from 'react-redux';
+import { compose } from 'recompose';
 import { withStyles, IconButton } from 'material-ui';
 
 import ChevronLeft from 'material-ui-icons/ChevronLeft';
 import ChevronRight from 'material-ui-icons/ChevronRight';
+
+import { nextMonth, prevMonth } from '../../modules/date/actions';
 
 const styles = {
   toolbar: {
@@ -36,23 +39,10 @@ const styles = {
     padding: '0 8px'
   }
 };
-const enhance = compose(
-  withHandlers({
-    nextMonth: ({ handleDate, date }) => () =>
-      handleDate(
-        moment(date)
-          .startOf('month')
-          .add(1, 'month')
-      ),
-    prevMonth: ({ handleDate, date }) => () =>
-      handleDate(
-        moment(date)
-          .startOf('month')
-          .subtract(1, 'month')
-      )
-  }),
-  withStyles(styles)
-);
+
+const mapDispatchToProps = { nextMonth, prevMonth };
+
+const enhance = compose(connect(null, mapDispatchToProps), withStyles(styles));
 
 const Toolbar = ({ classes, date, now, nextMonth, prevMonth }) => (
   <div className={classes.toolbar}>
@@ -75,7 +65,7 @@ const Toolbar = ({ classes, date, now, nextMonth, prevMonth }) => (
 
 Toolbar.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string),
-  date: PropTypes.object,
+  date: PropTypes.string,
   nextMonth: PropTypes.func,
   now: PropTypes.object,
   prevMonth: PropTypes.func

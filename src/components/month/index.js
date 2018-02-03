@@ -1,8 +1,8 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 
-import { compose, mapProps, withStateHandlers } from 'recompose';
+import { connect } from 'react-redux';
+import { compose, mapProps, withStateHandlers, withHandlers } from 'recompose';
 import { withStyles } from 'material-ui';
 import { splitEvery, compose as composeR } from 'ramda';
 
@@ -11,6 +11,8 @@ import PopoverEvent from '../popovers/main';
 
 import visibleDays from '../../utils/visibleDays';
 import eventsByWeeks from '../../utils/eventsForWeek';
+
+import { selectDay } from '../../modules/selected-day/actions';
 
 const styles = {
   monthView: {
@@ -24,23 +26,30 @@ const styles = {
   }
 };
 
+const mapStateToProps = ({ selectedDay }) => ({ ...selectedDay });
+const mapDispatchToProps = { selectDay };
+
 const enhance = compose(
   mapProps(({ date, events, now }) => {
     const weeks = composeR(splitEvery(7), visibleDays)(date);
     return { weeks, date, now, eventsByWeek: eventsByWeeks(events, weeks) };
   }),
+  connect(mapStateToProps, mapDispatchToProps),
   withStateHandlers(
-    { open: false, anchorEl: null, selectedDay: null, eventData: null },
+    { open: false },
     {
-      handlePopoverOpen: () => (el, day, eventData) => ({
-        open: true,
-        anchorEl: findDOMNode(el),
-        selectedDay: day,
-        eventData
+      statePopoverOpen: () => () => ({
+        open: true
       }),
-      handlePopoverClose: () => () => ({ open: false, anchorEl: null, selectedDay: null })
+      statePopoverClose: () => () => ({ open: false })
     }
   ),
+  withHandlers({
+    handlePopoverClose: ({ statePopoverClose, selectDay }) => () => {
+      statePopoverClose();
+      selectDay(); // remove selectedDay
+    }
+  }),
   withStyles(styles)
 );
 
@@ -52,9 +61,9 @@ const Month = ({
   eventsByWeek,
   open,
   anchorEl,
-  handlePopoverOpen,
+  statePopoverOpen,
   handlePopoverClose,
-  selectedDay,
+  selectedDateDay,
   eventData
 }) => (
   <div className={classes.monthView}>
@@ -67,8 +76,8 @@ const Month = ({
           now={now}
           week={week}
           isFirstWeek={weekIdx === 0}
-          handlePopoverOpen={handlePopoverOpen}
-          selectedDay={selectedDay}
+          handlePopoverOpen={statePopoverOpen}
+          selectedDay={selectedDateDay}
         />
       ))}
     <PopoverEvent
@@ -76,7 +85,7 @@ const Month = ({
       anchorEl={anchorEl}
       handlePopoverClose={handlePopoverClose}
       eventData={eventData}
-      selectedDay={selectedDay}
+      selectedDay={selectedDateDay}
     />
   </div>
 );
@@ -84,14 +93,14 @@ const Month = ({
 Month.propTypes = {
   anchorEl: PropTypes.object,
   classes: PropTypes.object,
-  date: PropTypes.object,
+  date: PropTypes.string,
   eventData: PropTypes.object,
   eventsByWeek: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)),
   handlePopoverClose: PropTypes.func,
-  handlePopoverOpen: PropTypes.func,
   now: PropTypes.object,
   open: PropTypes.bool,
-  selectedDay: PropTypes.string,
+  selectedDateDay: PropTypes.string,
+  statePopoverOpen: PropTypes.func,
   weeks: PropTypes.arrayOf(PropTypes.array)
 };
 

@@ -20,12 +20,11 @@ const styles = {
   }
 };
 
-const mapStateToProps = ({ events }) => ({ events });
+const mapStateToProps = ({ events, date }) => ({ events, date });
 const mapDispatchToProps = { getEvents };
 
 const enhance = compose(
   defaultProps({ now: new Date() }),
-  withState('date', 'handleDate', new Date()),
   connect(mapStateToProps, mapDispatchToProps),
   lifecycle({
     componentDidMount() {
@@ -35,19 +34,18 @@ const enhance = compose(
   withStyles(styles)
 );
 
-const Calendar = ({ classes, date, events, handleDate, now }) => (
+const Calendar = ({ classes, date, events, now }) => (
   <div className={classes.calendar}>
     <Head events={events} />
-    <Toolbar handleDate={handleDate} date={date} now={now} />
+    <Toolbar date={date} now={now} />
     <Month date={date} now={now} events={events} />
   </div>
 );
 
 Calendar.propTypes = {
   classes: PropTypes.object.isRequired,
-  date: PropTypes.object.isRequired,
+  date: PropTypes.string.isRequired,
   events: PropTypes.object.isRequired,
-  handleDate: PropTypes.func.isRequired,
   now: PropTypes.object.isRequired
 };
 
