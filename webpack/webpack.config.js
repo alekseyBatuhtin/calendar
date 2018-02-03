@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const rootDir = path.resolve(`${__dirname}/..`);
 
@@ -15,7 +16,7 @@ const config = {
   },
   devtool: isProd ? 'source-map' : 'cheap-module-source-map',
   output: {
-    filename: '[name].bundle.js',
+    filename: '[name].[hash].bundle.js',
     sourceMapFilename: '[file].map',
     path: `${rootDir}/dist`,
     publicPath: '/'
@@ -27,7 +28,7 @@ const config = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /(node_modules)/,
         loader: 'babel-loader?cacheDirectory=true'
       },
       {
@@ -102,10 +103,14 @@ function getPlugins() {
 
   if (isProd) {
     ret.push(
-      new webpack.optimize.UglifyJsPlugin({
+      new UglifyJsPlugin({
+        test: /\.js$/,
         sourceMap: true,
-        compressor: {
-          warnings: false
+        uglifyOptions: {
+          ecma: 6,
+          ie8: false,
+          warnings: false,
+          compress: true
         }
       })
     );
