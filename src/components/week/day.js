@@ -6,7 +6,7 @@ import cn from 'classnames';
 
 import { connect } from 'react-redux';
 import { compose, withProps, withHandlers } from 'recompose';
-import { withStyles } from 'material-ui';
+import { withStyles } from '@material-ui/core';
 
 import { selectDay } from '../../modules/selected-day/actions';
 

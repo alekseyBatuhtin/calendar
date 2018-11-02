@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 import { compose, withHandlers, withState } from 'recompose';
-import { withStyles } from 'material-ui';
+import { withStyles } from '@material-ui/core';
 
 import PopoverWrap from './popover-wrap';
 import Input from '../ui/input';

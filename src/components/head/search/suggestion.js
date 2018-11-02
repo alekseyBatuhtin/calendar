@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 
 import moment from 'moment';
 
-import { MenuItem, Paper } from 'material-ui';
-import withStyles from 'material-ui/styles/withStyles';
+import { MenuItem, Paper, withStyles } from '@material-ui/core';
 
 const styles = {
   wrap: { display: 'flex', flexDirection: 'column' },

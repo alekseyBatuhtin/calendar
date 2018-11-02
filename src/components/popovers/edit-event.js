@@ -6,7 +6,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import { compose, lifecycle, withStateHandlers, withHandlers } from 'recompose';
 
-import { withStyles } from 'material-ui';
+import { withStyles } from '@material-ui/core';
 import Input from '../ui/input';
 import Button from '../ui/button';
 

@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
-import { withStyles, IconButton } from 'material-ui';
+import { withStyles, IconButton } from '@material-ui/core';
 
-import ChevronLeft from 'material-ui-icons/ChevronLeft';
-import ChevronRight from 'material-ui-icons/ChevronRight';
+import ChevronLeft from '@material-ui/icons/ChevronLeft';
+import ChevronRight from '@material-ui/icons/ChevronRight';
 
 import { nextMonth, prevMonth } from '../../modules/date/actions';
 

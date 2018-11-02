@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 import { compose, defaultProps, lifecycle, onlyUpdateForKeys } from 'recompose';
-import { withStyles } from 'material-ui';
+import { withStyles } from '@material-ui/core';
 
 import Head from '../head';
 import Toolbar from '../toolbar';

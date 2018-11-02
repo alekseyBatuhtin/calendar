@@ -7,8 +7,8 @@ import { connect } from 'react-redux';
 
 import Autosuggest from 'react-autosuggest';
 
-import { withStyles } from 'material-ui';
-import Search from 'material-ui-icons/Search';
+import { withStyles } from '@material-ui/core';
+import Search from '@material-ui/icons/Search';
 import Input from './input';
 
 import { Suggestion, SuggestionContainer } from './suggestion';

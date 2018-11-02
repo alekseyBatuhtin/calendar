@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 import { compose, mapProps, withStateHandlers, withHandlers } from 'recompose';
-import { withStyles } from 'material-ui';
+import { withStyles } from '@material-ui/core';
 import { splitEvery, compose as composeR } from 'ramda';
 
 import Week from '../week';

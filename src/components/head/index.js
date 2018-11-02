@@ -2,7 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import { compose, withStateHandlers } from 'recompose';
-import { withStyles, Button } from 'material-ui';
+import { withStyles, Button } from '@material-ui/core';
 
 import SearchBar from './search';
 

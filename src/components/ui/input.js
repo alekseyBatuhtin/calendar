@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { TextField, withStyles } from 'material-ui';
+import { TextField, withStyles } from '@material-ui/core';
 
 const styles = {
   root: {

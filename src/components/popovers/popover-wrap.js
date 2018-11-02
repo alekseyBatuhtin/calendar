@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { withStyles, Popover } from 'material-ui';
+import { withStyles, Popover } from '@material-ui/core';
 
 const styles = {
   paper: {
