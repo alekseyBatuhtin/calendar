@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import moment from 'moment';
+import { isSameMonth } from 'date-fns/fp';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import { withStyles, IconButton } from '@material-ui/core';
@@ -10,6 +10,7 @@ import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 
 import { nextMonth, prevMonth } from '../../modules/date/actions';
+import formatDate from '../../utils/formatDate';
 
 const styles = {
   toolbar: {
@@ -22,7 +23,7 @@ const styles = {
     border: '1px solid rgba(0, 0, 0, 0.42)',
     borderRadius: '3px',
     boxShadow: 'inset 4px 4px 11px -8px rgba(0,0,0,0.42), inset -4px -4px 11px -8px rgba(0,0,0,0.42)',
-    height: 'auto'
+    height: '48px'
   },
   now: {
     margin: '0 12px',
@@ -50,14 +51,12 @@ const Toolbar = ({ classes, date, now, nextMonth, prevMonth }) => (
       <ChevronLeft />
     </IconButton>
     <span className={`${classes.border} ${classes.now}`}>
-      {moment(date)
-        .locale('ru')
-        .format('MMMM YYYY')}
+      {formatDate(date, 'LLLL yyyy')}
     </span>
     <IconButton className={classes.border} onClick={nextMonth}>
       <ChevronRight />
     </IconButton>
-    {moment(date).isSame(now, 'month') ? (
+    {isSameMonth(date)(now) ? (
       <span className={`${classes.border} ${classes.isToday}`}>{'сегодня'}</span>
     ) : null}
   </div>

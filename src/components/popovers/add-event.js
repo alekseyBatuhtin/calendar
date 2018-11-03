@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import moment from 'moment';
-
 import { compose, withStateHandlers, withHandlers, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
 
@@ -11,7 +9,7 @@ import Input from '../ui/input';
 import Button from '../ui/button';
 
 import { addEvent } from '../../modules/events/actions';
-
+import formatDate from '../../utils/formatDate';
 import styles from './styles';
 
 const enhance = compose(
@@ -43,9 +41,7 @@ const enhance = compose(
       const { initForm, selectedDay } = this.props;
       if (selectedDay) {
         const initDate = {
-          date: moment(selectedDay)
-            .locale('ru')
-            .format('D MMMM YYYY')
+          date: formatDate(selectedDay, 'd MMMM yyyy')
         };
         initForm(initDate);
       }

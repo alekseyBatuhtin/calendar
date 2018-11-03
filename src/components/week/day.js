@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import moment from 'moment';
+import { isSameDay } from 'date-fns/fp';
 import cn from 'classnames';
 
 import { connect } from 'react-redux';
@@ -9,6 +9,7 @@ import { compose, withProps, withHandlers } from 'recompose';
 import { withStyles } from '@material-ui/core';
 
 import { selectDay } from '../../modules/selected-day/actions';
+import formatDate from '../../utils/formatDate';
 
 const styles = {
   day: {
@@ -55,7 +56,7 @@ const enhance = compose(
   }),
   withStyles(styles),
   withProps(({ classes, now, day, selectedDay, eventDay }) => {
-    const isToday = moment(now).isSame(day, 'day');
+    const isToday = isSameDay(now)(day);
 
     return {
       dayClassname: cn({
@@ -82,9 +83,7 @@ const Day = ({ classes, dayClassname, day, isFirstWeek, eventDay, handleClick })
       }}
     >
       <div>
-        {moment(day)
-          .locale('ru')
-          .format(isFirstWeek ? 'dddd, D' : 'D')}
+        {formatDate(day, isFirstWeek? 'EEEE, d': 'd')}
       </div>
       {eventDay && (
         <div className={classes.event}>

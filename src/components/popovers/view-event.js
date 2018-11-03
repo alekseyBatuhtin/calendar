@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import moment from 'moment';
+import dateFns from 'date-fns/fp';
 
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
@@ -10,6 +10,7 @@ import { withStyles } from '@material-ui/core';
 import Button from '../ui/button';
 
 import { deleteEvent } from '../../modules/events/actions';
+import formatDate from '../../utils/formatDate';
 
 const styles = {
   date: {
@@ -32,9 +33,7 @@ const ViewEvent = ({
   <div>
     <h3>{title}</h3>
     <p className={classes.date}>
-      {moment(date)
-        .locale('ru')
-        .format('D MMMM YYYY')}
+      {formatDate('d MMMM yyyy')}
     </p>
     {members && (
       <div>

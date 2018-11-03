@@ -1,32 +1,27 @@
-import moment from 'moment';
+import { 
+  startOfMonth,
+  startOfISOWeek,
+  endOfISOWeek,
+  endOfMonth,
+  differenceInCalendarDays,
+  addDays
+} from 'date-fns/fp';
+import { compose } from 'ramda';
 
-const firstVisibleDay = date =>
-  moment(date)
-    .startOf('month')
-    .startOf('isoWeek');
+const firstVisibleDay = date => compose(startOfISOWeek, startOfMonth)(date);
 
-const lastVisibleDay = date =>
-  moment(date)
-    .endOf('month')
-    .endOf('isoWeek');
+const lastVisibleDay = date => compose(endOfISOWeek, endOfMonth)(date);
 
 const visibleDays = date => {
-  const current = firstVisibleDay(date);
+  const first = firstVisibleDay(date);
   const last = lastVisibleDay(date);
-  const diffirence = last.diff(current, 'days') + 1;
+  const diffirence = differenceInCalendarDays(first)(last);
+  const visibleDays = [];
 
-  return [...new Array(diffirence)].reduce(acc => {
-    if (!acc.length) {
-      acc.push(current.format());
-    } else {
-      acc.push(
-        moment(acc[acc.length - 1])
-          .add(1, 'd')
-          .format()
-      );
-    }
-    return acc;
-  }, []);
+  for (let i = 0; i <= diffirence; i++) {
+    visibleDays.push(addDays(i)(first).toISOString())
+  }
+  return visibleDays;
 };
 
 export default visibleDays;

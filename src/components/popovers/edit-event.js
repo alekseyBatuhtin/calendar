@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import moment from 'moment';
+import dateFns from 'date-fns/fp';
 
 import { connect } from 'react-redux';
 import { compose, lifecycle, withStateHandlers, withHandlers } from 'recompose';
@@ -11,6 +11,7 @@ import Input from '../ui/input';
 import Button from '../ui/button';
 
 import { addEvent } from '../../modules/events/actions';
+import formatDate from '../../utils/formatDate';
 
 import styles from './styles';
 
@@ -45,9 +46,7 @@ const enhance = compose(
         const { title, date, members, description } = eventData;
         const initDate = {
           title,
-          date: moment(date)
-            .locale('ru')
-            .format('D MMMM YYYY'),
+          date: formatDate(date, 'd MMMM yyyy'),
           members,
           description
         };

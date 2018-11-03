@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import moment from 'moment';
+import dateFns from 'date-fns/fp';
 
 import { MenuItem, Paper, withStyles } from '@material-ui/core';
+import formatDate from '../../../utils/formatDate';
 
 const styles = {
   wrap: { display: 'flex', flexDirection: 'column' },
@@ -17,9 +18,7 @@ const SuggestionItemBase = ({ isHighlighted, suggestion, classes }) => (
         <strong>{suggestion.title}</strong>
       </div>
       <span className={classes.date}>
-        {moment(suggestion.date)
-          .locale('ru')
-          .format('D MMMM')}
+        {formatDate(suggestion.date, 'd MMMM')}
       </span>
     </div>
   </MenuItem>

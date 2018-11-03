@@ -1,10 +1,12 @@
 import { filter, map } from 'ramda';
+import { isWithinInterval } from 'date-fns/fp';
 import moment from 'moment';
 
 const fiterByMonth = weeks => {
-  const start = weeks[0][0];
-  const end = weeks[weeks.length - 1][weeks[0].length - 1];
-  return event => moment(event.date).isBetween(start, end, null, '[]');
+  return event => isWithinInterval({
+    start: weeks[0][0],
+    end: weeks[weeks.length - 1][weeks[0].length - 1],
+  })(event.date);
 };
 
 const formEventsByWeek = events => week => map(day => ({ [day]: events[day] || null }))(week);
