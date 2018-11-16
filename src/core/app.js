@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Provider } from 'react-redux';
 
-import Shell from '../components/shell';
+import Calendar from '../components/calendar';
 import configureStore from '../modules/configure-store';
 
 import 'typeface-roboto';
@@ -14,7 +14,7 @@ const { store } = configureStore();
 
 const App = () => (
   <Provider store={store}>
-    <Shell />
+    <Calendar />
   </Provider>
 );
 

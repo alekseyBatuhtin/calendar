@@ -5,7 +5,7 @@ import { compose, withStateHandlers } from 'recompose';
 import { withStyles, Button } from '@material-ui/core';
 
 import SearchBar from './search';
-
+import Toolbar from '../toolbar';
 import SimpleAddEventPopover from '../popovers/simple-add-event';
 
 const styles = {
@@ -29,33 +29,35 @@ const enhance = compose(
   withStateHandlers(
     { open: false, anchorEl: null },
     {
-      handlePopoverOpen: () => el => ({ open: true, anchorEl: findDOMNode(el) }),
+      handlePopoverOpen: () => el => () => ({ open: true, anchorEl: findDOMNode(el) }),
       handlePopoverClose: () => () => ({ open: false, anchorEl: null })
     }
   ),
   withStyles(styles)
 );
 
-function Head({ classes, open, anchorEl, handlePopoverOpen, handlePopoverClose, events }) {
-  let addButton = null; // https://reactjs.org/docs/refs-and-the-dom.html#refs-and-functional-components
-
+const Head = ({
+  date,
+  now,
+  classes,
+  open,
+  anchorEl,
+  handlePopoverOpen,
+  handlePopoverClose,
+  events }) => {
   return (
     <div className={classes.head}>
+      <Toolbar date={date} now={now} /> 
       <div>
         <Button
-          raised={true}
-          className={classes.button}
-          ref={button => {
-            addButton = button;
-          }}
-          onClick={() => handlePopoverOpen(addButton)}
+          variant='outlined'
+          size='large'
+          //className={classes.button}
+          //onClick={handlePopoverOpen(null)}
         >
-          {'Добавить'}
+          {'Добавить событие'}
         </Button>
-        <Button raised={true} className={classes.button}>
-          {'Обновить'}
-        </Button>
-        <SimpleAddEventPopover open={open} handleClose={handlePopoverClose} anchorEl={anchorEl} />
+        <SimpleAddEventPopover open={open} /* handleClose={handlePopoverClose} anchorEl={anchorEl} */ />
       </div>
       <SearchBar events={events} />
     </div>

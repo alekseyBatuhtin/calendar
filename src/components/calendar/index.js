@@ -6,7 +6,6 @@ import { compose, defaultProps, lifecycle, onlyUpdateForKeys } from 'recompose';
 import { withStyles } from '@material-ui/core';
 
 import Head from '../head';
-import Toolbar from '../toolbar';
 import Month from '../month';
 
 import { getEvents } from '../../modules/events/actions';
@@ -37,8 +36,7 @@ const enhance = compose(
 
 const Calendar = ({ classes, date, events, now }) => (
   <div className={classes.calendar}>
-    <Head events={events} />
-    <Toolbar date={date} now={now} />
+    <Head events={events} date={date} now={now}/>
     <Month date={date} now={now} events={events} />
   </div>
 );

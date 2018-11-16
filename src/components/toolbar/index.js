@@ -15,9 +15,9 @@ import formatDate from '../../utils/formatDate';
 const styles = {
   toolbar: {
     display: 'flex',
-    padding: '0 30px',
-    marginTop: '30px',
-    height: '40px'
+/*     padding: '0 30px',
+    marginTop: '30px', */
+    //height: '40px'
   },
   border: {
     border: '1px solid rgba(0, 0, 0, 0.42)',
@@ -30,7 +30,8 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     minWidth: '180px',
-    alignItems: 'center'
+    alignItems: 'center',
+    textTransform: 'capitalize'
   },
   isToday: {
     display: 'flex',
