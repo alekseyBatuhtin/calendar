@@ -15,7 +15,7 @@ const styles = {
   day: {
     borderLeft: '1px solid rgba(0, 0, 0, 0.42)',
     flexBasis: '14.2857%',
-    fontSize: '.85em',
+    fontSize: '1em',
     padding: '6px',
     '&:first-child': {
       border: 0
@@ -69,7 +69,7 @@ const enhance = compose(
   })
 );
 
-const Day = ({ classes, dayClassname, day, isFirstWeek, eventDay, handleClick }) => {
+const Day = ({ classes, dayClassname, day, eventDay, handleClick }) => {
   let dayEl = null;
 
   return (
@@ -83,7 +83,7 @@ const Day = ({ classes, dayClassname, day, isFirstWeek, eventDay, handleClick })
       }}
     >
       <div>
-        {formatDate(day, isFirstWeek? 'EEEE, d': 'd')}
+        {formatDate(day, 'd')}
       </div>
       {eventDay && (
         <div className={classes.event}>
@@ -101,7 +101,6 @@ Day.propTypes = {
   dayClassname: PropTypes.string,
   eventDay: PropTypes.object,
   handleClick: PropTypes.func,
-  isFirstWeek: PropTypes.bool
 };
 
 export default enhance(Day);

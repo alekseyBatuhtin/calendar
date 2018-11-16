@@ -7,6 +7,7 @@ import { withStyles } from '@material-ui/core';
 import { splitEvery, compose as composeR } from 'ramda';
 
 import Week from '../week';
+import DaysOfWeek from './days-of-week';
 import PopoverEvent from '../popovers/main';
 
 import visibleDays from '../../utils/visibleDays';
@@ -67,6 +68,7 @@ const Month = ({
   eventData
 }) => (
   <div className={classes.monthView}>
+    <DaysOfWeek />
     {weeks &&
       weeks.map((week, weekIdx) => (
         <Week
@@ -75,7 +77,6 @@ const Month = ({
           date={date}
           now={now}
           week={week}
-          isFirstWeek={weekIdx === 0}
           handlePopoverOpen={statePopoverOpen}
           selectedDay={selectedDateDay}
         />

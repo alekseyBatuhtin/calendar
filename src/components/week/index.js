@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core';
-import Day from './day';
+import Day from '../day';
 
 const styles = {
   week: {
@@ -18,7 +18,7 @@ const styles = {
 
 const enhance = withStyles(styles);
 
-const Week = ({ now, week, isFirstWeek, classes, eventsWeek, handlePopoverOpen, selectedDay }) => (
+const Week = ({ now, week, classes, eventsWeek, handlePopoverOpen, selectedDay }) => (
   <div className={classes.week}>
     {week &&
       week.map((day, dayIdx) => (
@@ -27,7 +27,6 @@ const Week = ({ now, week, isFirstWeek, classes, eventsWeek, handlePopoverOpen, 
           day={day}
           now={now}
           eventDay={eventsWeek[dayIdx][day]}
-          isFirstWeek={isFirstWeek}
           handlePopoverOpen={handlePopoverOpen}
           selectedDay={selectedDay}
         />
@@ -39,7 +38,6 @@ Week.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string),
   eventsWeek: PropTypes.arrayOf(PropTypes.object),
   handlePopoverOpen: PropTypes.func,
-  isFirstWeek: PropTypes.bool,
   now: PropTypes.object,
   selectedDay: PropTypes.string,
   week: PropTypes.arrayOf(PropTypes.string)
