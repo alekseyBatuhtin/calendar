@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
-import { compose, mapProps, withStateHandlers, withHandlers } from 'recompose';
+import {
+  compose, mapProps, withStateHandlers, withHandlers,
+} from 'recompose';
 import { withStyles } from '@material-ui/core';
 import { splitEvery, compose as composeR } from 'ramda';
 
@@ -23,8 +25,8 @@ const styles = {
     flexDirection: 'column',
     flex: '1 0 0',
     position: 'relative',
-    margin: '30px'
-  }
+    margin: '30px',
+  },
 };
 
 const mapStateToProps = ({ selectedDay }) => ({ ...selectedDay });
@@ -33,25 +35,27 @@ const mapDispatchToProps = { selectDay };
 const enhance = compose(
   mapProps(({ date, events, now }) => {
     const weeks = composeR(splitEvery(7), visibleDays)(date);
-    return { weeks, date, now, eventsByWeek: eventsByWeeks(events, weeks) };
+    return {
+      weeks, date, now, eventsByWeek: eventsByWeeks(events, weeks),
+    };
   }),
   connect(mapStateToProps, mapDispatchToProps),
   withStateHandlers(
     { open: false },
     {
       statePopoverOpen: () => () => ({
-        open: true
+        open: true,
       }),
-      statePopoverClose: () => () => ({ open: false })
-    }
+      statePopoverClose: () => () => ({ open: false }),
+    },
   ),
   withHandlers({
     handlePopoverClose: ({ statePopoverClose, selectDay }) => () => {
       statePopoverClose();
       selectDay(); // remove selectedDay
-    }
+    },
   }),
-  withStyles(styles)
+  withStyles(styles),
 );
 
 const Month = ({
@@ -65,12 +69,12 @@ const Month = ({
   statePopoverOpen,
   handlePopoverClose,
   selectedDateDay,
-  eventData
+  eventData,
 }) => (
   <div className={classes.monthView}>
     <DaysOfWeek />
-    {weeks &&
-      weeks.map((week, weekIdx) => (
+    {weeks
+      && weeks.map((week, weekIdx) => (
         <Week
           key={weekIdx}
           eventsWeek={eventsByWeek[weekIdx]}
@@ -102,7 +106,7 @@ Month.propTypes = {
   open: PropTypes.bool,
   selectedDateDay: PropTypes.string,
   statePopoverOpen: PropTypes.func,
-  weeks: PropTypes.arrayOf(PropTypes.array)
+  weeks: PropTypes.arrayOf(PropTypes.array),
 };
 
 export default enhance(Month);

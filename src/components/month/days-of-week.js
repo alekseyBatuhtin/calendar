@@ -15,15 +15,14 @@ const styles = {
     fontSize: '.85em',
     padding: '6px',
     '&:first-child': {
-      border: 0
-    }
-  }
+      border: 0,
+    },
+  },
 };
 
 const enhance = withStyles(styles);
 
-const DaysOfWeek = ({ classes }) =>
-  (<div className={classes.days}>
+const DaysOfWeek = ({ classes }) => (<div className={classes.days}>
     {days.map(day => <div key={day} className={classes.day}>{day}</div>)}
   </div>);
 

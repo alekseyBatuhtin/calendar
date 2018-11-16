@@ -16,13 +16,13 @@ const styles = {
     height: '80px',
     backgroundColor: '#F4F4F4',
     padding: '10px 30px',
-    boxShadow: '0px 3px 10px -3px rgba(0,0,0,0.42)'
+    boxShadow: '0px 3px 10px -3px rgba(0,0,0,0.42)',
   },
   button: {
     backgroundColor: '#0071C3',
     color: '#FFF',
-    marginRight: '12px'
-  }
+    marginRight: '12px',
+  },
 };
 
 const enhance = compose(
@@ -30,10 +30,10 @@ const enhance = compose(
     { open: false, anchorEl: null },
     {
       handlePopoverOpen: () => el => () => ({ open: true, anchorEl: findDOMNode(el) }),
-      handlePopoverClose: () => () => ({ open: false, anchorEl: null })
-    }
+      handlePopoverClose: () => () => ({ open: false, anchorEl: null }),
+    },
   ),
-  withStyles(styles)
+  withStyles(styles),
 );
 
 const Head = ({
@@ -41,28 +41,27 @@ const Head = ({
   now,
   classes,
   open,
-  anchorEl,
+  /*   anchorEl,
   handlePopoverOpen,
-  handlePopoverClose,
-  events }) => {
-  return (
+  handlePopoverClose, */
+  events,
+}) => (
     <div className={classes.head}>
-      <Toolbar date={date} now={now} /> 
+      <Toolbar date={date} now={now} />
       <div>
         <Button
           variant='outlined'
           size='large'
-          //className={classes.button}
-          //onClick={handlePopoverOpen(null)}
+          // className={classes.button}
+          // onClick={handlePopoverOpen(null)}
         >
           {'Добавить событие'}
         </Button>
-        <SimpleAddEventPopover open={open} /* handleClose={handlePopoverClose} anchorEl={anchorEl} */ />
+        <SimpleAddEventPopover open={open} />
       </div>
       <SearchBar events={events} />
     </div>
-  );
-}
+);
 
 Head.propTypes = {
   anchorEl: PropTypes.object,
@@ -70,7 +69,7 @@ Head.propTypes = {
   events: PropTypes.object,
   handlePopoverClose: PropTypes.func,
   handlePopoverOpen: PropTypes.func,
-  open: PropTypes.bool
+  open: PropTypes.bool,
 };
 
 export default enhance(Head);

@@ -1,6 +1,28 @@
 import store from 'store';
-import moment from 'moment';
 import shortid from 'shortid32';
+// import formatDate from '../../utils/formatDate';
+
+function createEvent(value) {
+  let date;
+  let title;
+  // let rawDate;
+
+  /*   if (typeof value === 'string') {
+    [rawDate, title] = value.split(', ');
+    date = formatDate(rawDate, 'DD MM');
+  } else {
+    date = formatDate(value.date, 'DD MMMM YYYY', 'ru').format();
+    title = value.title;
+  } */
+
+  return {
+    id: shortid.generate(),
+    title: title || value.title,
+    date,
+    members: value.members || '',
+    description: value.description || '',
+  };
+}
 
 export const getEvents = () => store.get('events') || {};
 
@@ -15,30 +37,8 @@ export const writeEvent = ({ value }) => {
   return { event };
 };
 
-export const deleteEvent = date => {
+export const deleteEvent = (date) => {
   const events = getEvents();
   delete events[date];
   store.set('events', events);
 };
-
-function createEvent(value) {
-  let date;
-  let title;
-  let rawDate;
-
-  if (typeof value === 'string') {
-    [rawDate, title] = value.split(', ');
-    date = moment(rawDate, 'DD MM', 'ru').format();
-  } else {
-    date = moment(value.date, 'DD MMMM YYYY', 'ru').format();
-    title = value.title;
-  }
-
-  return {
-    id: shortid.generate(),
-    title: title || value.title,
-    date,
-    members: value.members || '',
-    description: value.description || ''
-  };
-}

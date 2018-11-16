@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import dateFns from 'date-fns/fp';
+// import dateFns from 'date-fns/fp';
 
 import { MenuItem, Paper, withStyles } from '@material-ui/core';
 import formatDate from '../../../utils/formatDate';
 
 const styles = {
   wrap: { display: 'flex', flexDirection: 'column' },
-  date: { fontSize: '.8em' }
+  date: { fontSize: '.8em' },
 };
 
 const SuggestionItemBase = ({ isHighlighted, suggestion, classes }) => (
@@ -27,7 +27,7 @@ const SuggestionItemBase = ({ isHighlighted, suggestion, classes }) => (
 SuggestionItemBase.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string),
   isHighlighted: PropTypes.bool,
-  suggestion: PropTypes.object
+  suggestion: PropTypes.object,
 };
 
 const SuggestionItem = withStyles(styles)(SuggestionItemBase);
@@ -36,7 +36,7 @@ export const Suggestion = (suggestion, { isHighlighted }) => (
   <SuggestionItem suggestion={suggestion} isHighlighted={isHighlighted} />
 );
 
-export const SuggestionContainer = options => {
+export const SuggestionContainer = (options) => {
   const { containerProps, children } = options;
 
   return (

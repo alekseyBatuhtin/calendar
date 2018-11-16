@@ -14,6 +14,6 @@ export default createReducer(
     [`${DELETE_EVENT}_SUCCESS`](state, { payload }) {
       delete state[payload];
       return Object.assign({}, state);
-    }
-  }
+    },
+  },
 );

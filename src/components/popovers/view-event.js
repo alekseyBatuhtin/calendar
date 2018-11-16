@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import dateFns from 'date-fns/fp';
+// import dateFns from 'date-fns/fp';
 
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
@@ -14,21 +14,23 @@ import formatDate from '../../utils/formatDate';
 
 const styles = {
   date: {
-    margin: '18px 0'
+    margin: '18px 0',
   },
   label: {
-    fontSize: '.9em'
-  }
+    fontSize: '.9em',
+  },
 };
 
 const enhance = compose(connect(null, { deleteEvent }), withStyles(styles));
 
 const ViewEvent = ({
   classes,
-  eventData: { title, date, members, description },
+  eventData: {
+    title, date, members, description,
+  },
   handleOpenEditForm,
   deleteEvent,
-  handlePopoverClose
+  handlePopoverClose,
 }) => (
   <div>
     <h3>{title}</h3>
@@ -66,7 +68,7 @@ ViewEvent.propTypes = {
   deleteEvent: PropTypes.func,
   eventData: PropTypes.object,
   handleOpenEditForm: PropTypes.func,
-  handlePopoverClose: PropTypes.func
+  handlePopoverClose: PropTypes.func,
 };
 
 export default enhance(ViewEvent);

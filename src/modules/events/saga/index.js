@@ -10,7 +10,7 @@ function* handleAddEvent(action) {
   const { event } = yield call(writeEvent, payload);
   yield put({
     type: `${type}_SUCCESS`,
-    payload: event
+    payload: event,
   });
 }
 
@@ -22,7 +22,7 @@ function* handleGetEvents(action) {
 
   yield put({
     type: `${type}_SUCCESS`,
-    payload: events
+    payload: events,
   });
 }
 
@@ -32,12 +32,12 @@ function* handleDeleteEvent(action) {
   yield call(deleteEvent, payload.date);
   yield put({
     type: `${type}_SUCCESS`,
-    payload: payload.date
+    payload: payload.date,
   });
 }
 
-export default function* watchEvent() {
-  yield takeEvery(ADD_EVENT, handleAddEvent);
-  yield takeEvery(GET_EVENTS, handleGetEvents);
-  yield takeEvery(DELETE_EVENT, handleDeleteEvent);
-}
+export default [
+  takeEvery(ADD_EVENT, handleAddEvent),
+  takeEvery(GET_EVENTS, handleGetEvents),
+  takeEvery(DELETE_EVENT, handleDeleteEvent),
+];

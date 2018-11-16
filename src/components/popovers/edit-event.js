@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import dateFns from 'date-fns/fp';
+// import dateFns from 'date-fns/fp';
 
 import { connect } from 'react-redux';
-import { compose, lifecycle, withStateHandlers, withHandlers } from 'recompose';
+import {
+  compose, lifecycle, withStateHandlers, withHandlers,
+} from 'recompose';
 
 import { withStyles } from '@material-ui/core';
 import Input from '../ui/input';
@@ -22,45 +24,53 @@ const enhance = compose(
       title: '',
       date: '',
       members: '',
-      description: ''
+      description: '',
     },
     {
-      handleChange: () => event => {
-        const name = event.target.name;
+      handleChange: () => (event) => {
+        const { name } = event.target;
         return { [name]: event.target.value };
       },
-      initForm: () => value => value
-    }
+      initForm: () => value => value,
+    },
   ),
   withHandlers({
-    handleSubmit: ({ title, date, members, description, handlePopoverClose, addEvent }) => event => {
+    handleSubmit: ({
+      title, date, members, description, handlePopoverClose, addEvent,
+    }) => (event) => {
       event.preventDefault();
       handlePopoverClose();
-      addEvent({ title, date, members, description });
-    }
+      addEvent({
+        title, date, members, description,
+      });
+    },
   }),
   lifecycle({
     componentDidMount() {
       const { initForm, eventData } = this.props;
       if (eventData) {
-        const { title, date, members, description } = eventData;
+        const {
+          title, date, members, description,
+        } = eventData;
         const initDate = {
           title,
           date: formatDate(date, 'd MMMM yyyy'),
           members,
-          description
+          description,
         };
         initForm(initDate);
       }
     },
     componentWillUnmount() {
       this.props.handleCloseEditForm();
-    }
+    },
   }),
-  withStyles(styles)
+  withStyles(styles),
 );
 
-const EditForm = ({ classes, handleSubmit, handleCloseEditForm, handleChange, title, date, members, description }) => (
+const EditForm = ({
+  classes, handleSubmit, handleCloseEditForm, handleChange, title, date, members, description,
+}) => (
   <form className={classes.form} onSubmit={handleSubmit}>
     <Input placeholderValue="Событие" name="title" handleChange={handleChange} value={title} />
     <Input
@@ -99,7 +109,7 @@ EditForm.propTypes = {
   handleCloseEditForm: PropTypes.func,
   handleSubmit: PropTypes.func,
   members: PropTypes.string,
-  title: PropTypes.string
+  title: PropTypes.string,
 };
 
 export default enhance(EditForm);

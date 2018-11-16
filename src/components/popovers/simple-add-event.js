@@ -18,16 +18,18 @@ const enhance = compose(
   withState('eventValue', 'handleEventValue', ''),
   withHandlers({
     handleChange: ({ handleEventValue }) => event => handleEventValue(event.target.value),
-    handleSubmit: ({ eventValue, handleClose, addEvent }) => event => {
+    handleSubmit: ({ eventValue, handleClose, addEvent }) => (event) => {
       event.preventDefault();
       handleClose();
       addEvent(eventValue);
-    }
+    },
   }),
-  withStyles(styles)
+  withStyles(styles),
 );
 
-const SimpleAddForm = ({ classes, open, handleSubmit, handleClose, anchorEl, eventValue, handleChange }) => (
+const SimpleAddForm = ({
+  classes, open, handleSubmit, handleClose, anchorEl, eventValue, handleChange,
+}) => (
   <PopoverWrap
     open={open}
     anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
@@ -50,6 +52,6 @@ SimpleAddForm.propTypes = {
   handleChange: PropTypes.func,
   handleClose: PropTypes.func,
   handleSubmit: PropTypes.func,
-  open: PropTypes.bool
+  open: PropTypes.bool,
 };
 export default enhance(SimpleAddForm);

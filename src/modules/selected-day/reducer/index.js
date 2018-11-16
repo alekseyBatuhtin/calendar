@@ -5,11 +5,11 @@ export default createReducer(
   {
     anchorEl: null,
     selectedDateDay: null,
-    eventData: null
+    eventData: null,
   },
   {
     [SELECT_DAY](state, { payload }) {
       return Object.assign({}, payload);
-    }
-  }
+    },
+  },
 );

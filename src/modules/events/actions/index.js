@@ -5,17 +5,17 @@ export const DELETE_EVENT = 'DELETE_EVENT';
 export const addEvent = value => ({
   type: ADD_EVENT,
   payload: {
-    value
-  }
+    value,
+  },
 });
 
 export const deleteEvent = date => ({
   type: DELETE_EVENT,
   payload: {
-    date
-  }
+    date,
+  },
 });
 
 export const getEvents = () => ({
-  type: GET_EVENTS
+  type: GET_EVENTS,
 });

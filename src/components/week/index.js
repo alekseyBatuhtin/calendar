@@ -11,17 +11,19 @@ const styles = {
     borderBottom: '1px solid rgba(0, 0, 0, 0.42)',
     height: '100px',
     '&:last-child': {
-      border: 0
-    }
-  }
+      border: 0,
+    },
+  },
 };
 
 const enhance = withStyles(styles);
 
-const Week = ({ now, week, classes, eventsWeek, handlePopoverOpen, selectedDay }) => (
+const Week = ({
+  now, week, classes, eventsWeek, handlePopoverOpen, selectedDay,
+}) => (
   <div className={classes.week}>
-    {week &&
-      week.map((day, dayIdx) => (
+    {week
+      && week.map((day, dayIdx) => (
         <Day
           key={dayIdx}
           day={day}
@@ -40,7 +42,7 @@ Week.propTypes = {
   handlePopoverOpen: PropTypes.func,
   now: PropTypes.object,
   selectedDay: PropTypes.string,
-  week: PropTypes.arrayOf(PropTypes.string)
+  week: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default enhance(Week);

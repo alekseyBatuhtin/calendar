@@ -11,7 +11,10 @@ const devConsole = console;
 export default function configureStore() {
   const store = createStore(
     rootReducer,
-    compose(applyMiddleware(sagaMiddleware), window.devToolsExtension ? window.devToolsExtension() : f => f)
+    compose(
+      applyMiddleware(sagaMiddleware),
+      window.devToolsExtension ? window.devToolsExtension() : f => f,
+    ),
   );
 
   store.subscribe(() => {

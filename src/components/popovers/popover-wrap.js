@@ -6,13 +6,15 @@ import { withStyles, Popover } from '@material-ui/core';
 const styles = {
   paper: {
     width: '350px',
-    padding: '16px'
-  }
+    padding: '16px',
+  },
 };
 
 const enhance = withStyles(styles);
 
-const PopoverWrap = ({ classes, open, handleClose, anchorEl, children, anchorOrigin, transformOrigin }) => (
+const PopoverWrap = ({
+  classes, open, handleClose, anchorEl, children, anchorOrigin, transformOrigin,
+}) => (
   <Popover
     classes={{ paper: classes.paper }}
     open={open}
@@ -32,7 +34,7 @@ PopoverWrap.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string),
   handleClose: PropTypes.func,
   open: PropTypes.bool,
-  transformOrigin: PropTypes.object
+  transformOrigin: PropTypes.object,
 };
 
 export default enhance(PopoverWrap);

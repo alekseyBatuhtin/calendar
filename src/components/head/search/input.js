@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 
 import { TextField } from '@material-ui/core';
 
-const Input = ({ classes, autoFocus, value, ref, ...other }) => (
+const Input = ({
+  classes, autoFocus, value, ref, ...other
+}) => (
   <TextField
     autoFocus={autoFocus}
     className={classes.textField}
@@ -11,9 +13,9 @@ const Input = ({ classes, autoFocus, value, ref, ...other }) => (
     inputRef={ref}
     InputProps={{
       classes: {
-        input: classes.input
+        input: classes.input,
       },
-      ...other
+      ...other,
     }}
   />
 );
@@ -22,7 +24,7 @@ Input.propTypes = {
   autoFocus: PropTypes.bool,
   classes: PropTypes.objectOf(PropTypes.string),
   ref: PropTypes.object,
-  value: PropTypes.string
+  value: PropTypes.string,
 };
 
 export default Input;

@@ -11,13 +11,13 @@ import PopoverWrap from './popover-wrap';
 const enhance = compose(
   withStateHandlers(
     {
-      openEditForm: false
+      openEditForm: false,
     },
     {
       handleOpenEditForm: () => () => ({ openEditForm: true }),
-      handleCloseEditForm: () => () => ({ openEditForm: false })
-    }
-  )
+      handleCloseEditForm: () => () => ({ openEditForm: false }),
+    },
+  ),
 );
 
 const PopoverEvent = ({
@@ -28,7 +28,7 @@ const PopoverEvent = ({
   selectedDay,
   eventData,
   handleCloseEditForm,
-  handleOpenEditForm
+  handleOpenEditForm,
 }) => (
   <PopoverWrap
     open={open}
@@ -56,7 +56,7 @@ PopoverEvent.propTypes = {
   handlePopoverClose: PropTypes.func,
   open: PropTypes.bool,
   openEditForm: PropTypes.bool,
-  selectedDay: PropTypes.string
+  selectedDay: PropTypes.string,
 };
 
 export default enhance(PopoverEvent);
@@ -67,7 +67,7 @@ function OptionEventType({
   openEditForm,
   handleOpenEditForm,
   handleCloseEditForm,
-  handlePopoverClose
+  handlePopoverClose,
 }) {
   if (openEditForm) {
     return (
@@ -77,7 +77,7 @@ function OptionEventType({
         handlePopoverClose={handlePopoverClose}
       />
     );
-  } else if (eventData) {
+  } if (eventData) {
     return (
       <ViewEvent
         eventData={eventData}
@@ -95,5 +95,5 @@ OptionEventType.propTypes = {
   handleOpenEditForm: PropTypes.func,
   handlePopoverClose: PropTypes.func,
   openEditForm: PropTypes.bool,
-  selectedDay: PropTypes.string
+  selectedDay: PropTypes.string,
 };

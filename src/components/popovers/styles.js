@@ -1,6 +1,6 @@
 export default {
   form: {
     display: 'flex',
-    flexDirection: 'column'
-  }
+    flexDirection: 'column',
+  },
 };

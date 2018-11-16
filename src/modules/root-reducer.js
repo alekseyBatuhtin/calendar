@@ -6,5 +6,5 @@ import date from './date/reducer';
 export default combineReducers({
   events,
   selectedDay,
-  date
+  date,
 });

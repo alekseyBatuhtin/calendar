@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { compose, withStateHandlers, withHandlers, lifecycle } from 'recompose';
+import {
+  compose, withStateHandlers, withHandlers, lifecycle,
+} from 'recompose';
 import { connect } from 'react-redux';
 
 import { withStyles } from '@material-ui/core';
@@ -19,38 +21,44 @@ const enhance = compose(
       title: '',
       date: '',
       members: '',
-      description: ''
+      description: '',
     },
     {
-      handleChange: () => event => {
-        const name = event.target.name;
+      handleChange: () => (event) => {
+        const { name } = event.target;
         return { [name]: event.target.value };
       },
-      initForm: () => value => value
-    }
+      initForm: () => value => value,
+    },
   ),
   withHandlers({
-    handleSubmit: ({ title, date, members, description, handlePopoverClose, addEvent }) => event => {
+    handleSubmit: ({
+      title, date, members, description, handlePopoverClose, addEvent,
+    }) => (event) => {
       event.preventDefault();
       handlePopoverClose();
-      addEvent({ title, date, members, description });
-    }
+      addEvent({
+        title, date, members, description,
+      });
+    },
   }),
   lifecycle({
     componentDidMount() {
       const { initForm, selectedDay } = this.props;
       if (selectedDay) {
         const initDate = {
-          date: formatDate(selectedDay, 'd MMMM yyyy')
+          date: formatDate(selectedDay, 'd MMMM yyyy'),
         };
         initForm(initDate);
       }
-    }
+    },
   }),
-  withStyles(styles)
+  withStyles(styles),
 );
 
-const AddForm = ({ classes, handleSubmit, handleChange, title, date, members, description }) => (
+const AddForm = ({
+  classes, handleSubmit, handleChange, title, date, members, description,
+}) => (
   <form onSubmit={handleSubmit} className={classes.form}>
     <Input placeholderValue="Событие" name="title" handleChange={handleChange} value={title} />
     <Input
@@ -87,7 +95,7 @@ AddForm.propTypes = {
   handleChange: PropTypes.func,
   handleSubmit: PropTypes.func,
   members: PropTypes.string,
-  title: PropTypes.string
+  title: PropTypes.string,
 };
 
 export default enhance(AddForm);

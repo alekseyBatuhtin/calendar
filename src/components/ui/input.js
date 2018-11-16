@@ -5,7 +5,7 @@ import { TextField, withStyles } from '@material-ui/core';
 
 const styles = {
   root: {
-    marginBottom: '6px'
+    marginBottom: '6px',
   },
   textFieldInput: {
     borderRadius: 4,
@@ -14,17 +14,19 @@ const styles = {
     padding: '10px 12px',
     '&:focus': {
       borderColor: '#80bdff',
-      boxShadow: '0 0 0 0.08rem rgba(0,123,255,.25)'
-    }
+      boxShadow: '0 0 0 0.08rem rgba(0,123,255,.25)',
+    },
   },
   helperText: {
-    marginLeft: '12px'
-  }
+    marginLeft: '12px',
+  },
 };
 
 const enhance = withStyles(styles);
 
-const Input = ({ classes, handleChange, value, placeholderValue, helperText, multiline, name }) => (
+const Input = ({
+  classes, handleChange, value, placeholderValue, helperText, multiline, name,
+}) => (
   <TextField
     onChange={handleChange}
     className={classes.root}
@@ -38,8 +40,8 @@ const Input = ({ classes, handleChange, value, placeholderValue, helperText, mul
     InputProps={{
       disableUnderline: true,
       classes: {
-        input: classes.textFieldInput
-      }
+        input: classes.textFieldInput,
+      },
     }}
     placeholder={placeholderValue}
   />
@@ -52,7 +54,7 @@ Input.propTypes = {
   multiline: PropTypes.bool,
   name: PropTypes.string,
   placeholderValue: PropTypes.string,
-  value: PropTypes.string
+  value: PropTypes.string,
 };
 
 export default enhance(Input);

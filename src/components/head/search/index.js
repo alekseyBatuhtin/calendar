@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { pathOr } from 'ramda';
 
-import { compose, withState, mapProps, withHandlers } from 'recompose';
+import {
+  compose, withState, mapProps, withHandlers,
+} from 'recompose';
 import { connect } from 'react-redux';
 
 import Autosuggest from 'react-autosuggest';
@@ -16,14 +18,25 @@ import { Suggestion, SuggestionContainer } from './suggestion';
 import { selectDay } from '../../../modules/selected-day/actions';
 import { setDate } from '../../../modules/date/actions';
 
+function getSuggestions(value, events) {
+  const inputValue = value.trim();
+  const regex = new RegExp(`^${inputValue}`, 'i');
+
+  return inputValue.length === 0 ? [] : events.filter(({ title }) => regex.test(title));
+}
+
+function getSuggestionValue(suggestion) {
+  return suggestion.title;
+}
+
 const styles = {
   wrap: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   container: {
     position: 'relative',
-    height: 'auto'
+    height: 'auto',
   },
   suggestionsContainerOpen: {
     position: 'absolute',
@@ -31,19 +44,19 @@ const styles = {
     overflowY: 'auto',
     zIndex: 100,
     left: 0,
-    right: 0
+    right: 0,
   },
   suggestion: {
     display: 'block',
     borderBottom: '1px solid black',
     '&:last-child': {
-      borderBottom: 0
-    }
+      borderBottom: 0,
+    },
   },
   suggestionsList: {
     margin: 0,
     padding: 0,
-    listStyleType: 'none'
+    listStyleType: 'none',
   },
   input: {
     borderRadius: 4,
@@ -53,13 +66,13 @@ const styles = {
     padding: '8px 12px',
     '&:focus': {
       borderColor: '#80bdff',
-      boxShadow: '0 0 0 0.08rem rgba(0,123,255,.25)'
-    }
+      boxShadow: '0 0 0 0.08rem rgba(0,123,255,.25)',
+    },
   },
   icon: {
     color: 'grey',
-    marginRight: '8px'
-  }
+    marginRight: '8px',
+  },
 };
 
 const mapStateToProps = ({ selectedDay: { selectedDateDay } }) => ({ selectedDateDay });
@@ -70,7 +83,7 @@ const enhance = compose(
     eventsArray: Object.keys(events).reduce((acc, event) => {
       acc.push(events[event]);
       return acc;
-    }, [])
+    }, []),
   })),
   connect(mapStateToProps, mapDispatchToProps),
   withState('value', 'setValue', ''),
@@ -82,7 +95,7 @@ const enhance = compose(
     },
     handleSuggestionsClearRequested: ({ setSuggestions }) => () => {
       setSuggestions([]);
-    }
+    },
   }),
   withHandlers({
     handleChange: ({ setValue }) => (event, { newValue }) => {
@@ -98,9 +111,9 @@ const enhance = compose(
       if (suggestionDate) {
         selectDay(null, suggestionDate);
       }
-    }
+    },
   }),
-  withStyles(styles)
+  withStyles(styles),
 );
 
 const SearchBar = ({
@@ -111,7 +124,7 @@ const SearchBar = ({
   handleSuggestionsFetchRequested,
   handleSuggestionsClearRequested,
   handleSuggestionHighlighted,
-  handleSuggestionSelected
+  handleSuggestionSelected,
 }) => (
   <div className={classes.wrap}>
     <Search className={classes.icon} />
@@ -120,7 +133,7 @@ const SearchBar = ({
         container: classes.container,
         suggestionsContainerOpen: classes.suggestionsContainerOpen,
         suggestionsList: classes.suggestionsList,
-        suggestion: classes.suggestion
+        suggestion: classes.suggestion,
       }}
       renderInputComponent={Input}
       suggestions={suggestions}
@@ -138,7 +151,7 @@ const SearchBar = ({
         type: 'search',
         value,
         onChange: handleChange,
-        disableUnderline: true
+        disableUnderline: true,
       }}
     />
   </div>
@@ -152,18 +165,7 @@ SearchBar.propTypes = {
   handleSuggestionSelected: PropTypes.func,
   handleSuggestionsFetchRequested: PropTypes.func,
   suggestions: PropTypes.arrayOf(PropTypes.object),
-  value: PropTypes.string
+  value: PropTypes.string,
 };
 
 export default enhance(SearchBar);
-
-function getSuggestions(value, events) {
-  const inputValue = value.trim();
-  const regex = new RegExp(`^${inputValue}`, 'i');
-
-  return inputValue.length === 0 ? [] : events.filter(({ title }) => regex.test(title));
-}
-
-function getSuggestionValue(suggestion) {
-  return suggestion.title;
-}
