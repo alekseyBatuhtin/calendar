@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -9,27 +10,69 @@ const rootDir = path.resolve(`${__dirname}/..`);
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const isProd = NODE_ENV === 'production';
 
+function getPlugins() {
+  const ret = [
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.NamedModulesPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new HtmlWebpackPlugin({
+      template: `${rootDir}/src/core/index.html`,
+      inject: 'body', /* ,
+      favicon: `${rootDir}/src/core/favicon.png` */
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(NODE_ENV),
+      },
+    }),
+  ];
+
+  if (isProd) {
+    ret.push(
+      new UglifyJsPlugin({
+        test: /\.js$/,
+        sourceMap: true,
+        uglifyOptions: {
+          ecma: 6,
+          ie8: false,
+          warnings: false,
+          compress: true,
+        },
+      }),
+    );
+    ret.push(
+      new ExtractTextPlugin({
+        // id: 'styles.css', // looks like a bug
+        filename: '[name].[contenthash].css',
+      }),
+    );
+  }
+
+  return ret;
+}
+
 const config = {
+  mode: NODE_ENV,
   cache: true,
   entry: {
-    app: `${rootDir}/src/core/app.js`
+    app: `${rootDir}/src/core/app.js`,
   },
   devtool: isProd ? 'source-map' : 'cheap-module-source-map',
   output: {
     filename: '[name].[hash].bundle.js',
     sourceMapFilename: '[file].map',
     path: `${rootDir}/dist`,
-    publicPath: '/'
+    publicPath: '/',
   },
   resolve: {
-    modules: [`${rootDir}/src`, `${rootDir}/node_modules`]
+    modules: [`${rootDir}/src`, `${rootDir}/node_modules`],
   },
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /(node_modules)/,
-        loader: 'babel-loader?cacheDirectory=true'
+        loader: 'babel-loader?cacheDirectory=true',
       },
       {
         test: /\.css$/,
@@ -40,10 +83,10 @@ const config = {
           {
             loader: 'postcss-loader',
             options: {
-              plugins: [require('postcss-import')(), require('postcss-cssnext')()]
-            }
-          }
-        ]
+              plugins: [require('postcss-import')(), require('postcss-cssnext')()],
+            },
+          },
+        ],
       },
       {
         test: /\.css$/,
@@ -56,20 +99,20 @@ const config = {
               modules: true,
               sourceMap: true,
               importLoaders: 1,
-              localIdentName: '[name]__[local]___[hash:base64:5]'
-            }
+              localIdentName: '[name]__[local]___[hash:base64:5]',
+            },
           },
           {
             loader: 'postcss-loader',
             options: {
-              plugins: [require('postcss-import')(), require('postcss-cssnext')()]
-            }
-          }
-        ]
+              plugins: [require('postcss-import')(), require('postcss-cssnext')()],
+            },
+          },
+        ],
       },
       { test: /\.(jpg|png|gif)$/, loader: 'file-loader' },
-      { test: /\.(woff|woff2|eot|ttf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url-loader?limit=100000' }
-    ]
+      { test: /\.(woff|woff2|eot|ttf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url-loader?limit=100000' },
+    ],
   },
   plugins: getPlugins(),
   devServer: {
@@ -78,49 +121,8 @@ const config = {
     hot: true,
     inline: true,
     historyApiFallback: true,
-    proxy: {}
-  }
+    proxy: {},
+  },
 };
 
 module.exports = config;
-
-function getPlugins() {
-  const ret = [
-    new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebpackPlugin({
-      template: `${rootDir}/src/core/index.html`,
-      inject: 'body' /* ,
-      favicon: `${rootDir}/src/core/favicon.png` */
-    }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(NODE_ENV)
-      }
-    })
-  ];
-
-  if (isProd) {
-    ret.push(
-      new UglifyJsPlugin({
-        test: /\.js$/,
-        sourceMap: true,
-        uglifyOptions: {
-          ecma: 6,
-          ie8: false,
-          warnings: false,
-          compress: true
-        }
-      })
-    );
-    ret.push(
-      new ExtractTextPlugin({
-        // id: 'styles.css', // looks like a bug
-        filename: '[name].[contenthash].css'
-      })
-    );
-  }
-
-  return ret;
-}

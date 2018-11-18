@@ -9,7 +9,8 @@
   "scripts": {
     "start": "node node_modules/.bin/webpack-dev-server --config webpack/webpack.config.js",
     "build:dist": "NODE_ENV=development webpack --config webpack/webpack.config.js",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint . --fix"
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
@@ -51,11 +52,11 @@
     "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "css-loader": "^0.28.7",
-    "eslint": "^4.16.0",
-    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint": "^5.9.0",
+    "eslint-config-airbnb": "^17.1.0",
     "eslint-config-react-app": "^2.1.0",
     "eslint-plugin-flowtype": "^2.40.1",
-    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^5.0.0",
     "eslint-plugin-lodash": "^2.5.0",
     "eslint-plugin-prettier": "^2.5.0",

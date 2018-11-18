@@ -1,0 +1,27 @@
+{
+  "extends": "airbnb-base",
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    "no-param-reassign": [0],
+    "no-shadow": "off",
+    "import/prefer-default-export": 0,
+    "react/jsx-uses-react": 2,
+    "react/jsx-uses-vars": 2,
+    "react/react-in-jsx-scope": 2,
+    "no-plusplus": 0
+  },
+  "globals": {
+    "describe": 1,
+    "test": 1,
+    "expect": 1,
+    "beforeEach": 1,
+    "beforeAll": 1
+  }
+}
